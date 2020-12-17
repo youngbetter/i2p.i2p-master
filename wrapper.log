@@ -1,0 +1,68 @@
+ERROR - Cannot find I2P installation in E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master - Will probably be just a router with no apps or console at all!
+WARNING: Resource name [jcpuid-x86_64-windows.dll] was not found
+WARNING: Resource name [jcpuid-x86-windows.dll] was not found
+WARNING: Native CPUID library jcpuid not loaded - will not be able to read CPU information using CPUID
+INFO: Resource name [jbigi-windows-none_64.dll] was not found
+INFO: Resource name [jbigi-windows-none.dll] was not found
+WARNING: Native BigInteger library jbigi not loaded - using pure Java - poor performance may result - see http://i2p-projekt.i2p/jbigi for help
+null
+Warning - No client apps or router console configured - we are just a router
+Reseed start
+Reseeding from https://reseed.diva.exchange/i2pseeds.su3?netid=2
+Error reseeding: java.io.IOException: unknown signer: reseed@diva.exchange for content type: reseed
+Reseed got no router infos from https://reseed.diva.exchange/i2pseeds.su3?netid=2
+Reseed got 0 router infos from https://reseed.diva.exchange/i2pseeds.su3?netid=2 with 1 errors
+Reseeding from https://i2p.novg.net/i2pseeds.su3?netid=2
+Reseed got no router infos from https://i2p.novg.net/i2pseeds.su3?netid=2
+Reseeding from https://reseed.i2pgit.org/i2pseeds.su3?netid=2
+Error reseeding: java.io.IOException: unknown signer: hankhill19580@gmail.com for content type: reseed
+Reseed got no router infos from https://reseed.i2pgit.org/i2pseeds.su3?netid=2
+Reseed got 0 router infos from https://reseed.i2pgit.org/i2pseeds.su3?netid=2 with 1 errors
+Reseeding from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2
+Reseed got no router infos from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2
+Reseeding from https://reseed.i2p-projekt.de/i2pseeds.su3?netid=2
+Reseed got no router infos from https://reseed.i2p-projekt.de/i2pseeds.su3?netid=2
+Reseeding from https://reseed.onion.im/i2pseeds.su3?netid=2
+Reseed got no router infos from https://reseed.onion.im/i2pseeds.su3?netid=2
+Reseeding from https://reseed.memcpy.io/i2pseeds.su3?netid=2
+2020年12月17日 上午9:55:50 CRIT  [istener:7654] er.client.ClientListenerRunner: I2CP error listening to port 7654 - is another I2P instance running? Resolve conflicts and restart
+Reseed got no router infos from https://reseed.memcpy.io/i2pseeds.su3?netid=2
+Reseed failed - check network connection
+Ensure that nothing blocks outbound HTTP or HTTPS, check the logs, and if nothing helps, read the FAQ about reseeding manually.
+Consider enabling a proxy for https on the reseed configuration page
+2020年12月17日 上午9:56:50 CRIT  [istener:7654] er.client.ClientListenerRunner: I2CP error listening to port 7654 - is another I2P instance running? Resolve conflicts and restart
+ERROR - Cannot find I2P installation in E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master - Will probably be just a router with no apps or console at all!
+WARN: Old router was not shut down gracefully, deleting E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master\router.ping
+WARNING: Resource name [jcpuid-x86_64-windows.dll] was not found
+WARNING: Resource name [jcpuid-x86-windows.dll] was not found
+WARNING: Native CPUID library jcpuid not loaded - will not be able to read CPU information using CPUID
+INFO: Resource name [jbigi-windows-none_64.dll] was not found
+INFO: Resource name [jbigi-windows-none.dll] was not found
+WARNING: Native BigInteger library jbigi not loaded - using pure Java - poor performance may result - see http://i2p-projekt.i2p/jbigi for help
+null
+Warning - No client apps or router console configured - we are just a router
+Reseed start
+Reseeding from https://i2p.novg.net/i2pseeds.su3?netid=2
+Reseed got no router infos from https://i2p.novg.net/i2pseeds.su3?netid=2
+Reseeding from https://reseed.i2p-projekt.de/i2pseeds.su3?netid=2
+Reseed got no router infos from https://reseed.i2p-projekt.de/i2pseeds.su3?netid=2
+Reseeding from https://reseed.i2pgit.org/i2pseeds.su3?netid=2
+Error reseeding: java.io.IOException: unknown signer: hankhill19580@gmail.com for content type: reseed
+Reseed got no router infos from https://reseed.i2pgit.org/i2pseeds.su3?netid=2
+Reseed got 0 router infos from https://reseed.i2pgit.org/i2pseeds.su3?netid=2 with 1 errors
+Reseeding from https://reseed.diva.exchange/i2pseeds.su3?netid=2
+Error reseeding: java.io.IOException: unknown signer: reseed@diva.exchange for content type: reseed
+Reseed got no router infos from https://reseed.diva.exchange/i2pseeds.su3?netid=2
+Reseed got 0 router infos from https://reseed.diva.exchange/i2pseeds.su3?netid=2 with 1 errors
+Reseeding from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2
+Reseed got no router infos from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2
+Reseeding from https://reseed.memcpy.io/i2pseeds.su3?netid=2
+Reseed got no router infos from https://reseed.memcpy.io/i2pseeds.su3?netid=2
+Reseeding from https://reseed.onion.im/i2pseeds.su3?netid=2
+Error reseeding: java.io.IOException: unknown signer: lazygravy@mail.i2p for content type: reseed
+Reseed got no router infos from https://reseed.onion.im/i2pseeds.su3?netid=2
+Reseed got 0 router infos from https://reseed.onion.im/i2pseeds.su3?netid=2 with 1 errors
+Reseed failed - check network connection
+Ensure that nothing blocks outbound HTTP or HTTPS, check the logs, and if nothing helps, read the FAQ about reseeding manually.
+Consider enabling a proxy for https on the reseed configuration page
+2020年12月17日 上午10:02:51 CRIT  [istener:7654] er.client.ClientListenerRunner: I2CP error listening to port 7654 - is another I2P instance running? Resolve conflicts and restart

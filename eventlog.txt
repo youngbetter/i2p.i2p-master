@@ -1,0 +1,7 @@
+1608170107293 started 0.9.48-2
+1608170108228 rekeyed -fHb2V1e~2TyqQ5Oi5c3JFmXgdqySnRoxAyM075N-kc=
+1608170110489 reachability from IPv4: OK; IPv6: Testing to OK
+1608170176984 reseed 0
+1608170528661 started 0.9.48-2
+1608170531578 reachability from IPv4: OK; IPv6: Testing to OK
+1608170580310 reseed 0

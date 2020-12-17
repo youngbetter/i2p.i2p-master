@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Specification-Title: I2P Core API
+Specification-Version: 0.9.48
+Specification-Vendor: The I2P Project https://geti2p.net/
+Implementation-Title: I2P Java Core API
+Implementation-Version: 0.9.48-2
+Implementation-Vendor: The I2P Project https://geti2p.net/
+Built-By: 
+Build-Date: reproducible
+Base-Revision: unknown
+Workspace-Changes: 
+X-Compile-Source-JDK: 1.8
+X-Compile-Target-JDK: 1.8
+Main-Class: net.i2p.util.CommandLine
+
