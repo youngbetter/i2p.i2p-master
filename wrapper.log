@@ -66,3 +66,64 @@ Reseed failed - check network connection
 Ensure that nothing blocks outbound HTTP or HTTPS, check the logs, and if nothing helps, read the FAQ about reseeding manually.
 Consider enabling a proxy for https on the reseed configuration page
 2020年12月17日 上午10:02:51 CRIT  [istener:7654] er.client.ClientListenerRunner: I2CP error listening to port 7654 - is another I2P instance running? Resolve conflicts and restart
+ERROR - Cannot find I2P installation in E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master - Will probably be just a router with no apps or console at all!
+WARN: Old router was not shut down gracefully, deleting E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master\router.ping
+Warning - New context not replacing old one, you now have a second one
+java.lang.Exception: I did it
+	at net.i2p.I2PAppContext.setGlobalContext(I2PAppContext.java:163)
+	at net.i2p.I2PAppContext.<init>(I2PAppContext.java:337)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:113)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:99)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:91)
+	at net.i2p.router.Young.<init>(Young.java:32)
+	at net.i2p.router.Young.main(Young.java:91)
+Warning - More than one router in this JVM
+WARNING: Resource name [jcpuid-x86_64-windows.dll] was not found
+WARNING: Resource name [jcpuid-x86-windows.dll] was not found
+WARNING: Native CPUID library jcpuid not loaded - will not be able to read CPU information using CPUID
+INFO: Resource name [jbigi-windows-none_64.dll] was not found
+INFO: Resource name [jbigi-windows-none.dll] was not found
+WARNING: Native BigInteger library jbigi not loaded - using pure Java - poor performance may result - see http://i2p-projekt.i2p/jbigi for help
+Exception in thread "main" java.lang.NullPointerException
+	at net.i2p.data.DatabaseEntry.getRoutingKey(DatabaseEntry.java:156)
+	at net.i2p.router.Young.main(Young.java:92)
+ERROR - Cannot find I2P installation in E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master - Will probably be just a router with no apps or console at all!
+Warning - New context not replacing old one, you now have a second one
+java.lang.Exception: I did it
+	at net.i2p.I2PAppContext.setGlobalContext(I2PAppContext.java:163)
+	at net.i2p.I2PAppContext.<init>(I2PAppContext.java:337)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:113)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:99)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:91)
+	at net.i2p.router.Young.<init>(Young.java:32)
+	at net.i2p.router.Young.main(Young.java:91)
+Warning - More than one router in this JVM
+WARNING: Resource name [jcpuid-x86_64-windows.dll] was not found
+WARNING: Resource name [jcpuid-x86-windows.dll] was not found
+WARNING: Native CPUID library jcpuid not loaded - will not be able to read CPU information using CPUID
+INFO: Resource name [jbigi-windows-none_64.dll] was not found
+INFO: Resource name [jbigi-windows-none.dll] was not found
+WARNING: Native BigInteger library jbigi not loaded - using pure Java - poor performance may result - see http://i2p-projekt.i2p/jbigi for help
+Exception in thread "main" java.lang.NullPointerException
+	at net.i2p.data.DatabaseEntry.getRoutingKey(DatabaseEntry.java:156)
+	at net.i2p.router.Young.main(Young.java:92)
+ERROR - Cannot find I2P installation in E:\workspace\i2p.i2p-0.9.48\i2p.i2p-master - Will probably be just a router with no apps or console at all!
+Warning - New context not replacing old one, you now have a second one
+java.lang.Exception: I did it
+	at net.i2p.I2PAppContext.setGlobalContext(I2PAppContext.java:163)
+	at net.i2p.I2PAppContext.<init>(I2PAppContext.java:337)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:113)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:99)
+	at net.i2p.router.RouterContext.<init>(RouterContext.java:91)
+	at net.i2p.router.Young.<init>(Young.java:32)
+	at net.i2p.router.Young.main(Young.java:91)
+Warning - More than one router in this JVM
+WARNING: Resource name [jcpuid-x86_64-windows.dll] was not found
+WARNING: Resource name [jcpuid-x86-windows.dll] was not found
+WARNING: Native CPUID library jcpuid not loaded - will not be able to read CPU information using CPUID
+INFO: Resource name [jbigi-windows-none_64.dll] was not found
+INFO: Resource name [jbigi-windows-none.dll] was not found
+WARNING: Native BigInteger library jbigi not loaded - using pure Java - poor performance may result - see http://i2p-projekt.i2p/jbigi for help
+Exception in thread "main" java.lang.NullPointerException
+	at net.i2p.data.DatabaseEntry.getRoutingKey(DatabaseEntry.java:156)
+	at net.i2p.router.Young.main(Young.java:92)

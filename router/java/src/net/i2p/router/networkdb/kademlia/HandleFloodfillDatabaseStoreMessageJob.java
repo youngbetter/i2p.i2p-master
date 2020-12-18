@@ -11,6 +11,7 @@ package net.i2p.router.networkdb.kademlia;
 import java.util.Collection;
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.data.DatabaseEntry;
 import net.i2p.data.Hash;
 import net.i2p.data.Lease;
@@ -27,6 +28,7 @@ import net.i2p.data.i2np.TunnelGatewayMessage;
 import net.i2p.router.*;
 import net.i2p.router.message.SendMessageDirectJob;
 import net.i2p.util.Log;
+import org.json.simple.JsonObject;
 
 import static net.i2p.router.utils.getFormatTime;
 
@@ -71,10 +73,11 @@ class HandleFloodfillDatabaseStoreMessageJob extends JobImpl {
         DatabaseEntry entry = _message.getEntry();
         // YOUNG
         // 存储其他节点的存储
-        _log.debug("YOUNG:HandleFloodfillDatabaseStoreMessageJob->runJob: message=" + _message);
-        StringBuilder sbs = new StringBuilder();
-        sbs.append("{\"log_time\":\"" + getFormatTime() + "\", \"store_key\":\"" + key
-            + "\", \"ri_from\":\"" + _from.getHash() + "\", \"message\":\"" + _message + "\", ");
+        _log.debug("YOUNG@HandleFloodfillDatabaseStoreMessageJob->runJob: message=" + _message);
+        JSONObject dsm_json = new JSONObject();
+        dsm_json.put("log_time", getFormatTime());
+        dsm_json.put("key", key.getData());
+        dsm_json.put("ri_from", _from.getHash().getData());
         // DID
         int type = entry.getType();
         if (DatabaseEntry.isLeaseSet(type)) {
@@ -99,8 +102,10 @@ class HandleFloodfillDatabaseStoreMessageJob extends JobImpl {
                 }
                 LeaseSet ls = (LeaseSet) entry;
                 //YOUNG
-                sbs.append("\"type\":\"ls\", " + "\"ls_b32\":\"" + ls.getDestination().toBase32() + "\", \"ls\":\"" + ls + "\"}");
-                utils.aof(utils.getDataStoreDir() + "dsm_ls.json", sbs.toString());
+                dsm_json.put("type", "ri");
+                dsm_json.put("dest_b32", ls.getDestination().toBase32());
+                dsm_json.put("ls", utils.ls2json(ls));
+                utils.aof(utils.getDataStoreDir() + "dsm_ls.json", dsm_json.toJSONString());
                 Hash client;
                 if (ls.getType() == DatabaseEntry.KEY_TYPE_ENCRYPTED_LS2) {
                     // get the real client hash
@@ -108,8 +113,8 @@ class HandleFloodfillDatabaseStoreMessageJob extends JobImpl {
                 } else {
                     client = ls.getHash();
                 }
-                FloodConnectJob fcj = new FloodConnectJob(getContext(), ls.getType(), ls.getHash(), client, _facade);
-                getContext().jobQueue().addJob(fcj);
+//                FloodConnectJob fcj = new FloodConnectJob(getContext(), ls.getType(), ls.getHash(), client, _facade);
+//                getContext().jobQueue().addJob(fcj);
                 // DID
                 //boolean oldrar = ls.getReceivedAsReply();
                 //boolean oldrap = ls.getReceivedAsPublished();
@@ -167,8 +172,9 @@ class HandleFloodfillDatabaseStoreMessageJob extends JobImpl {
         } else if (type == DatabaseEntry.KEY_TYPE_ROUTERINFO) {
             RouterInfo ri = (RouterInfo) entry;
             //YOUNG
-            sbs.append("\"type\":\"ri\", " + "\"ri\":\"" + ri + "\"}");
-            utils.aof(utils.getDataStoreDir() + "dsm_ri.json", sbs.toString());
+            dsm_json.put("type", "ri");
+            dsm_json.put("ri", utils.ri2json(ri));
+            utils.aof(utils.getDataStoreDir() + "dsm_ri.json", dsm_json.toJSONString());
             // DID
             getContext().statManager().addRateData("netDb.storeRouterInfoHandled", 1);
             if (_log.shouldLog(Log.INFO))

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.crypto.SigType;
 import net.i2p.data.DatabaseEntry;
 import net.i2p.data.Destination;
@@ -18,11 +21,13 @@ import net.i2p.data.router.RouterInfo;
 import net.i2p.data.router.RouterKeyGenerator;
 import net.i2p.kademlia.KBucket;
 import net.i2p.kademlia.KBucketSet;
+import net.i2p.kademlia.RejectTrimmer;
 import net.i2p.router.*;
 import net.i2p.util.Clock;
 import net.i2p.util.ConcurrentHashSet;
 import net.i2p.util.Log;
 import net.i2p.util.SystemVersion;
+import org.json.simple.JsonObject;
 
 import static net.i2p.data.DatabaseEntry.KEY_TYPE_ROUTERINFO;
 import static net.i2p.router.Router.*;
@@ -101,11 +106,6 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
         _context.jobQueue().addJob(rrj);
 
         final int CUSTOM_JOB_DELAY = 3 * 60 * 1000;
-        // 定时存储 k-bucket，用于建模数据收集
-        Job kbsj = new KBStoreJob(_context);
-        kbsj.getTiming().setStartAfter(_context.clock().now() + CUSTOM_JOB_DELAY);
-        _context.jobQueue().addJob(kbsj);
-
         // 定时存储 KnownLeaseSetsInfo
         Job fslj = new FloodStoreLSJob(_context, this);
         fslj.getTiming().setStartAfter(_context.clock().now() + CUSTOM_JOB_DELAY);
@@ -266,13 +266,15 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
         // YOUNG
         // 存储flood记录
         _log.debug("YOUNG:FNDF->flood: DatabaseEntry=" + ds);
-        StringBuilder sbs = new StringBuilder();
-        sbs.append("{\"log_time\":\"" + getFormatTime() + "\", \"key\":\"" + key + "\", \"routing_key\":\"" + rkey
-            + "\", \"flood_peers\":\"" + peers + "\", \"type\":\"");
+        JSONObject f_json = new JSONObject();
+        f_json.put("log_time", getFormatTime());
+        f_json.put("key", key.getData());
+        f_json.put("routing_key", rkey.getData());
+        f_json.put("flood_target", peers);
         if (type == DatabaseEntry.KEY_TYPE_ROUTERINFO) {
-            sbs.append("ri\"");
+            f_json.put("type", "ri");
         } else {
-            sbs.append("ls\"");
+            f_json.put("type", "ls");
         }
         // DID
         // todo key cert skip?
@@ -285,7 +287,8 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
             // next routing key for a period of time before midnight.
             Hash nkey = gen.getNextRoutingKey(key);
             List<Hash> nextPeers = sel.selectFloodfillParticipants(nkey, NEXT_FLOOD_QTY, getKBuckets());
-            sbs.append(", \"next_key\":\"" + nkey + "\", \"next_peers\":\"" + nextPeers + "\"");
+            f_json.put("next_key", nkey.getData());
+            f_json.put("next_peers", nextPeers);
             int i = 0;
             for (Hash h : nextPeers) {
                 // Don't flood an RI back to itself
@@ -307,8 +310,16 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
                     _log.info("Flooding the entry for " + key + " to " + i + " more, just before midnight");
             }
         }
-        sbs.append("}");
-        utils.aof(utils.getDataStoreDir() + "flood.json", sbs.toString());
+        utils.aof(utils.getDataStoreDir() + "flood.json", f_json.toJSONString());
+        /**
+         * 统计一下这时候的RouterInfo分布
+         */
+        // 定时存储 k-bucket，用于建模数据收集
+        _log.debug("YOUNG@start kbsj...");
+        Job kbsj = new KBStoreJob(_context);
+        kbsj.getTiming().setStartAfter(_context.clock().now() + 5 * 60 * 1000);
+        _context.jobQueue().addJob(kbsj);
+
         int flooded = 0;
         for (int i = 0; i < peers.size(); i++) {
             Hash peer = peers.get(i);
@@ -750,11 +761,14 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
      * 定时存储 k-bucket，用于建模数据收集
      */
     private class KBStoreJob extends JobImpl {
+
         private final long RERUN_DELAY_MS;
+        private final Log log;
 
         public KBStoreJob(RouterContext ctx) {
             super(ctx);
             RERUN_DELAY_MS = ctx.getProperty(PROP_CUSTOM_KBSJ_RERUN_DELAY_MS, CUSTOM_RERUN_DELAY_MS);
+            log = _context.logManager().getLog(getClass());
         }
 
         public String getName() {
@@ -762,13 +776,42 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
         }
 
         public void runJob() {
+            log.debug("YOUNG@KBStoreJob->runJob");
             KBucketSet<Hash> set = getKBuckets();
+            JSONArray kb_set = new JSONArray();
+            JSONArray ff_set = new JSONArray();
             for (KBucket<Hash> b : set.getBuckets()) {
-                StringBuilder sbs = new StringBuilder();
-                sbs.append("{\"log_time\":\"" + getFormatTime() + "\", \"buckets\":\"" + b + "\"}");
-                aof(utils.getDataStoreDir() + "kb_ri.json", sbs.toString());
+                // 总体记录
+                JSONObject kb_json = new JSONObject();
+                kb_json.put("log_time", getFormatTime());
+                kb_json.put("begin", b.getRangeBegin());
+                kb_json.put("end", b.getRangeEnd());
+                kb_json.put("count", b.getKeyCount());
+                kb_json.put("entries", b.getEntries());
+                kb_set.add(kb_json);
+                // 记录ff距离分布情况
+                for (Hash peer : b.getEntries()) {
+                    RouterInfo info = (RouterInfo) lookupLocallyWithoutValidation(peer);
+                    if (info != null && info.getCapabilities().contains("f")) {
+                        JSONObject item = new JSONObject();
+                        String knownRI = info.getOption("netdb.knownRouters") == null ? "0" : info.getOption("netdb.knownRouters");
+                        String knownLS = info.getOption("netdb.knownLeaseSets") == null ? "0" : info.getOption("netdb.knownLeaseSets");
+                        item.put("known_ri", knownRI);
+                        item.put("known_ls", knownLS);
+                        item.put("caps", info.getCapabilities());
+                        item.put("xor", new KBucketSet<Hash>(_context, _context.routerKeyGenerator().getRoutingKey(_context.routerHash()),
+                            24, 4, new RejectTrimmer<Hash>()).getRange(peer));
+                        item.put("peer_hash", peer.getData());
+                        item.put("us_rkey", _context.routerKeyGenerator().getRoutingKey(_context.routerHash()).getData());
+                        item.put("us_hash", _context.routerHash().getData());
+                        item.put("log_time", getFormatTime());
+                        ff_set.add(item);
+                    }
+                }
             }
-            requeue(RERUN_DELAY_MS);
+            aof(utils.getDataStoreDir() + "kb_ri.json", kb_set.toJSONString());
+            aof(utils.getDataStoreDir() + "ff_stats.json", ff_set.toJSONString());
+//            requeue(RERUN_DELAY_MS);
         }
     }
 
@@ -793,11 +836,14 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
         public void runJob() {
             List<LeaseSet> leaseSets = getKnownLeaseSetsInfo();
             _log.info("storeJob leaseSet num:" + leaseSets.size());
+            JSONArray ls_arr_json = new JSONArray();
             for (LeaseSet ls : leaseSets) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("{\"log_time\":\"" + getFormatTime() + "\", \"dest_b32\":\"" + ls.getDestination().toBase32() + "\", \"lease_set\":\"" + ls + "\"}");
+                JSONObject ls_json = new JSONObject();
+                ls_json.put("log_time", getFormatTime());
+                ls_json.put("dest_b32", ls.getDestination().toBase32());
+                ls_json.put("ls", utils.ls2json(ls));
                 _log.info("b32:" + ls.getDestination().toBase32() + ", lease detail:" + ls);
-                aof(utils.getDataStoreDir() + "known_ls.json", sb.toString());
+                ls_arr_json.add(ls_json);
                 // LeaseSet探活
                 Hash client;
                 if (ls.getType() == DatabaseEntry.KEY_TYPE_ENCRYPTED_LS2) {
@@ -806,9 +852,10 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
                 } else {
                     client = ls.getHash();
                 }
-                FloodConnectJob fcj = new FloodConnectJob(getContext(), ls.getType(), ls.getHash(), client, _facade);
-                getContext().jobQueue().addJob(fcj);
+//                FloodConnectJob fcj = new FloodConnectJob(getContext(), ls.getType(), ls.getHash(), client, _facade);
+//                getContext().jobQueue().addJob(fcj);
             }
+            aof(utils.getDataStoreDir() + "known_ls.json", ls_arr_json.toJSONString());
             requeue(RERUN_DELAY_MS);
         }
     }
@@ -832,16 +879,31 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
         public void runJob() {
             List<RouterInfo> ris = getKnownRouterInfo();
             _log.info("storeJob ri num:" + ris.size());
+            JSONArray ri_arr_json = new JSONArray();
+            JSONArray ff_arr_json = new JSONArray();
+            JSONArray non_arr_json = new JSONArray();
             for (RouterInfo ri : ris) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("{\"log_time\":\"" + getFormatTime() + "\", \"ri_hash\":\"" + ri.getHash() + "\", \"routing_key\":\"" + ri.getRoutingKey() + "\",\"router_info\":\"" + ri + "\"}");
-                aof(utils.getDataStoreDir() + "known_ri.json", sb.toString());
-                if(ri.getCapabilities().contains("f")){
-                    aof(utils.getDataStoreDir() + "known_ff.json", sb.toString());
-                }else{
-                    aof(utils.getDataStoreDir() + "known_non_ff.json", sb.toString());
+                JSONObject ri_json = new JSONObject();
+                ri_json.put("log_time", getFormatTime());
+                ri_json.put("hash", ri.getHash().getData());
+                ri_json.put("routing_key", ri.getRoutingKey().getData());
+                ri_json.put("ri", utils.ri2json(ri));
+                ri_arr_json.add(ri_json);
+//                aof(utils.getDataStoreDir() + "known_ri.json", ri_json.toJSONString());
+                ri_json.remove("ri");
+                if (ri.getCapabilities().contains("f")) {
+                    ri_json.put("known_ls", ri.getOption("netdb.knownLeaseSets"));
+                    ri_json.put("known_ri", ri.getOption("netdb.knownRouters"));
+                    ff_arr_json.add(ri_json);
+//                    aof(utils.getDataStoreDir() + "known_ff.json", ri_json.toJSONString());
+                } else {
+                    non_arr_json.add(ri_json);
+//                    aof(utils.getDataStoreDir() + "known_non_ff.json", ri_json.toJSONString());
                 }
             }
+            aof(utils.getDataStoreDir() + "known_ri.json", ri_arr_json.toJSONString());
+            aof(utils.getDataStoreDir() + "known_ff.json", ff_arr_json.toJSONString());
+            aof(utils.getDataStoreDir() + "known_non_ff.json", non_arr_json.toJSONString());
             requeue(RERUN_DELAY_MS);
         }
     }

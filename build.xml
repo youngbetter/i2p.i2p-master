@@ -717,7 +717,7 @@
         <jar destfile="./build/launchi2p.jar">
             <manifest>
                 <attribute name="Main-Class" value="net.i2p.router.RouterLaunch" />
-                <attribute name="Class-Path" value="lib/i2p.jar lib/router.jar lib/jbigi.jar lib/BOB.jar lib/sam.jar lib/mstreaming.jar lib/streaming.jar lib/routerconsole.jar lib/i2ptunnel.jar lib/org.mortbay.jetty.jar lib/javax.servlet.jar lib/jasper-runtime.jar lib/commons-el.jar lib/wrapper.jar lib/systray.jar lib/desktopgui.jar lib/i2psnark.jar lib/jrobin.jar lib/jstl.jar lib/standard.jar lib/jetty-continuation.jar lib/jetty-deploy.jar lib/jetty-http.jar lib/jetty-i2p.jar lib/jetty-io.jar lib/jetty-rewrite-handler.jar lib/jetty-security.jar lib/jetty-servlet.jar lib/jetty-servlets.jar lib/jetty-start.jar lib/jetty-util.jar lib/jetty-webapp.jar lib/jetty-xml.jar" />
+                <attribute name="Class-Path" value="lib/fastjson-1.2.75.jar lib/i2p.jar lib/router.jar lib/jbigi.jar lib/BOB.jar lib/sam.jar lib/mstreaming.jar lib/streaming.jar lib/routerconsole.jar lib/i2ptunnel.jar lib/org.mortbay.jetty.jar lib/javax.servlet.jar lib/jasper-runtime.jar lib/commons-el.jar lib/wrapper.jar lib/systray.jar lib/desktopgui.jar lib/i2psnark.jar lib/jrobin.jar lib/jstl.jar lib/standard.jar lib/jetty-continuation.jar lib/jetty-deploy.jar lib/jetty-http.jar lib/jetty-i2p.jar lib/jetty-io.jar lib/jetty-rewrite-handler.jar lib/jetty-security.jar lib/jetty-servlet.jar lib/jetty-servlets.jar lib/jetty-start.jar lib/jetty-util.jar lib/jetty-webapp.jar lib/jetty-xml.jar" />
                 <attribute name="Built-By" value="${build.built-by}" />
                 <attribute name="Build-Date" value="${build.timestamp}" />
                 <attribute name="Base-Revision" value="${workspace.version}" />
@@ -1442,6 +1442,7 @@
         <delete>
             <fileset dir="pkg-temp" includes="**/*.jar.pack **/*.war.pack deletelist.txt" />
         </delete>
+        <copy file="apps/fastjson-1.2.75.jar" todir="pkg-temp/lib/" />
         <copy file="build/i2p.jar" todir="pkg-temp/lib/" />
         <copy file="build/i2ptunnel.jar" todir="pkg-temp/lib/" />
         <copy file="build/mstreaming.jar" todir="pkg-temp/lib/" />
@@ -2548,6 +2549,7 @@
                  url="git@github.com:i2p/i2p.i2p.git" />
             <dependency groupId="net.i2p" artifactId="i2p" version="${release.number}" />
             <dependency groupId="org.apache.tomcat" artifactId="tomcat-servlet-api" version="8.0.33" />
+            <dependency groupId="com.alibaba" artifactId="fastjson" version="1.2.75" />
         </artifact:pom>
         <artifact:writepom pomRefId="i2ppom" file="pkg-mavencentral/i2p-${release.number}.pom"/>
         <artifact:writepom pomRefId="routerpom" file="pkg-mavencentral/router-${release.number}.pom"/>

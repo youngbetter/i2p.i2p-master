@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.data.DatabaseEntry;
 import net.i2p.data.Hash;
 import net.i2p.data.LeaseSet;
@@ -30,6 +32,7 @@ import net.i2p.router.crypto.ratchet.RatchetSessionTag;
 import net.i2p.router.networkdb.kademlia.MessageWrapper;
 import net.i2p.router.message.SendMessageDirectJob;
 import net.i2p.util.Log;
+import org.json.simple.JsonObject;
 
 import static net.i2p.router.utils.getFormatTime;
 
@@ -100,9 +103,14 @@ public class HandleDatabaseLookupMessageJob extends JobImpl {
         // YOUNG
         // 存储其他节点的查询
         _log.debug("YOUNG:HandleDatabaseLookupMessageJob->runJob: message=" + _message);
-        StringBuilder sbs = new StringBuilder();
-        sbs.append("{\"log_time\":\"" + getFormatTime() + "\", \"search_key\":\"" + _message.getSearchKey()
-            + "\", \"ri_from\":\"" + _from.getHash() + "\", \"message\":\"" + _message + "\", ");
+        JSONObject dlm_json = new JSONObject();
+        dlm_json.put("log_time", getFormatTime());
+        dlm_json.put("search_key", _message.getSearchKey().getData());
+        dlm_json.put("ri_from", _from.getHash().getData());
+        JSONObject m_json = new JSONObject();
+        m_json.put("type", _message.getSearchType());
+        m_json.put("key", _message.getSearchKey().getData());
+        dlm_json.put("dlm", m_json);
         // DID
         // only lookup once, then cast to correct type
         DatabaseEntry dbe = getContext().netDb().lookupLocally(_message.getSearchKey());
@@ -118,9 +126,12 @@ public class HandleDatabaseLookupMessageJob extends JobImpl {
             boolean shouldPublishLocal = isLocal && getContext().clientManager().shouldPublishLeaseSet(_message.getSearchKey());
 
             //YOUNG
-            sbs.append("\"type\":\"ls\", \"is_local\":\"" + isLocal + "\", \"should_pub\":\"" + shouldPublishLocal
-                + "\", \"ls_b32\":\"" + ls.getDestination().toBase32() + "\", \"ls\":\"" + ls + "\"}");
-            utils.aof(utils.getDataStoreDir() + "dlm_ls.json", sbs.toString());
+            dlm_json.put("is_local", isLocal);
+            dlm_json.put("should_pub", shouldPublishLocal);
+            dlm_json.put("ls_b32", ls.getDestination().toBase32());
+            JSONObject ls_json = utils.ls2json(ls);
+            dlm_json.put("lease", ls_json);
+            utils.aof(utils.getDataStoreDir() + "dlm_ls.json", dlm_json.toJSONString());
             // DID
             // Only answer a request for a LeaseSet if it has been published
             // to us, or, if its local, if we would have published to ourselves
@@ -180,8 +191,8 @@ public class HandleDatabaseLookupMessageJob extends JobImpl {
             lookupType != DatabaseLookupMessage.Type.LS) {
             RouterInfo info = (RouterInfo) dbe;
             //YOUNG
-            sbs.append("\"type\":\"ri\", " + "\"ri\":\"" + info + "\"}");
-            utils.aof(utils.getDataStoreDir() + "dlm_ri.json", sbs.toString());
+            dlm_json.put("ri", utils.ri2json(info));
+            utils.aof(utils.getDataStoreDir() + "dlm_ri.json", dlm_json.toJSONString());
             // DID
             if (info.isCurrent(EXPIRE_DELAY)) {
                 if ((info.isHidden()) || (isUnreachable(info) && !publishUnreachable())) {
@@ -218,8 +229,8 @@ public class HandleDatabaseLookupMessageJob extends JobImpl {
             // not found locally - return closest peer hashes
             Set<Hash> routerHashSet = getNearestRouters(lookupType);
             //YOUNG
-            sbs.append("\"type\":\"not_found_locally\", " + "\"closest_hashes\":\"" + routerHashSet + "\"}");
-            utils.aof(utils.getDataStoreDir() + "dlm_not_found_local.json", sbs.toString());
+            dlm_json.put("closest_hashes", routerHashSet);
+            utils.aof(utils.getDataStoreDir() + "dlm_not_found_local.json", dlm_json.toJSONString());
             // DID
             if (_log.shouldLog(Log.DEBUG))
                 _log.debug("We do not have key " + _message.getSearchKey() +

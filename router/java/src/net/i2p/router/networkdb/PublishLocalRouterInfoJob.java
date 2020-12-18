@@ -83,13 +83,6 @@ public class PublishLocalRouterInfoJob extends JobImpl {
             return;
         }
         RouterInfo oldRI = getContext().router().getRouterInfo();
-        // YOUNG
-        // 存储自己RouterInfo发布记录
-        _log.debug("YOUNG:PublishLocalRouterInfoJob->runJob");
-        StringBuilder sbs = new StringBuilder();
-        sbs.append("{\"log_time\":\"" + getFormatTime() + "\", \"last\":\"" + last
-            + "\", \"now\":\"" + now + "\", \"old_ri\":\"" + oldRI + "\"");
-        // DID
         if (_log.shouldLog(Log.DEBUG))
             _log.debug("Old routerInfo contains " + oldRI.getAddresses().size()
                 + " addresses and " + oldRI.getOptionsMap().size() + " options");
@@ -141,8 +134,6 @@ public class PublishLocalRouterInfoJob extends JobImpl {
             }
             ri.sign(key);
             getContext().router().setRouterInfo(ri);
-            sbs.append(", \"new_ri\":\"" + ri + "\"}");
-            utils.aof(utils.getDataStoreDir() + "pub_us.json", sbs.toString());
             if (_log.shouldLog(Log.INFO))
                 _log.info("Newly updated routerInfo is published with " + stats.size()
                     + "/" + ri.getOptionsMap().size() + " options on "

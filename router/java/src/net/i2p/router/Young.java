@@ -7,11 +7,14 @@ import net.i2p.data.Hash;
 import net.i2p.data.router.RouterInfo;
 import net.i2p.kademlia.KBucketSet;
 import net.i2p.util.Log;
+import org.json.simple.JsonObject;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static net.i2p.router.utils.ri2json;
 
 public class Young {
     private I2PAppContext context;
@@ -21,7 +24,7 @@ public class Young {
     private static Log log;
     private static final int K = 24;
     private static final int B = 4;
-    private static final String US_KEY = "BHMdGW1RWcd1L~ZRlusWxIh3zOfwy1CnypXassz2Q1U=";
+    private static final String US_KEY = "V7X0K-qYu-TiOfuo5RzYyEgEVkynD2G~AHti8xf8LF4=";
     private static final String _routerFile = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\netDB\\rb\\routerInfo-BHMdGW1RWcd1L~ZRlusWxIh3zOfwy1CnypXassz2Q1U=.dat";
 
 
@@ -45,10 +48,7 @@ public class Young {
     @Override
     public String toString() {
         return "Young{" +
-            "context=" + context +
-            ", set=" + kBucketSet +
             ", usHash=" + usHash +
-            ", usInfo=" + usInfo +
             '}';
     }
 
@@ -65,9 +65,9 @@ public class Young {
      * @return hash
      */
     public Hash getHash(String key) {
-        //Hash h = new Hash();
         try {
-            //h.fromBase64(key);
+            // fastjson convert
+            key = key.replace('/', '~').replace('+', '-');
             byte[] b = Base64.decode(key);
             if (b == null)
                 return null;
@@ -80,14 +80,16 @@ public class Young {
     }
 
     public int getXorWith(Hash peer){
-        return getBucketSet().getRange(peer);
+        return peer==null?Integer.MIN_VALUE:getBucketSet().getRange(peer);
+    }
+
+    public void statisticFF(){
+
     }
 
     public static void main(String[] args) {
         Young y = new Young();
-        System.out.println(y.getXorWith(y.getHash("TSJbuMiqb~VSsvKFs1nAguv9Xgu8NUGKx5wPh77tNQQ=")));
-        if(y.getUsInfo().getCapabilities().contains("f")){
-            System.out.println(y.getUsInfo().getCapabilities());
-        }
+//        System.out.println(y.getHash("HLiW/yxPdls5C+TpqNrmhiNnpgeso2d/k7wFQj3aDZo="));
+        System.out.println(y.getXorWith(y.getHash("z~ED24qOEy5G6MkZJ0O8v4KN4DviZNiBmV88RKUJTdg=")));
     }
 }

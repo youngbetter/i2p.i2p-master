@@ -1,5 +1,6 @@
 package net.i2p.router.networkdb.kademlia;
 
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.crypto.EncType;
 import net.i2p.data.*;
 import net.i2p.data.i2np.DatabaseLookupMessage;
@@ -9,6 +10,7 @@ import net.i2p.data.i2np.I2NPMessage;
 import net.i2p.data.router.RouterInfo;
 import net.i2p.router.*;
 import net.i2p.util.Log;
+import org.json.simple.JsonObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -196,9 +198,15 @@ public class FloodConnectJob extends JobImpl {
                 return;
             }
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"log_time\":\"" + getFormatTime() + ", \"key\":\"" + _key + ", \"target\":\"" + _target + "\", \"dlm\":\"" + lookup + "\"}");
-        aof(utils.getDataStoreDir() + "connect.json", sb.toString());
+        JSONObject c_json = new JSONObject();
+        c_json.put("log_time", getFormatTime());
+        c_json.put("key", _key.getData());
+        c_json.put("target", _target.getData());
+        JSONObject dlm_json = new JSONObject();
+        dlm_json.put("type", lookup.getSearchType());
+        dlm_json.put("key", lookup.getSearchKey());
+        c_json.put("dlm", dlm_json);
+        aof(utils.getDataStoreDir() + "connect.json", c_json.toJSONString());
         if (_log.shouldLog(Log.INFO))
             _log.info(getJobId() + ": Starting test connection " + _key + "asking " + _target);
         _sendTime = ctx.clock().now();
