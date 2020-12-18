@@ -159,14 +159,39 @@ public class utils {
         return rv;
     }
 
+    public static int getPeerProfilesCount(String p_dir){
+        List<File> dirs = new LinkedList<File>();
+        int rv = 0;
+        try {
+            File rootDir = new File(p_dir);
+            dirs.add(rootDir);
+            while (!dirs.isEmpty()) {
+                for (File f : dirs.get(0).listFiles()) {
+                    if (f.isDirectory()) {
+                        dirs.add(f);
+                    } else if (f.isFile()) {
+                        rv += 1;
+                    }
+                }
+                dirs.remove(0);
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return rv;
+    }
+
     public static void main(String[] args) {
         try {
             String netDBDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\netDB";
+            String pDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\peerProfiles";
+
             int riNum = getRICount(netDBDir);
             int riFFNum = getRICount(netDBDir, true);
             System.out.println("total ri files:" + riNum);
             System.out.println("ff files:" + riFFNum);
             System.out.println("non-ff files:" + (riNum - riFFNum));
+            System.out.println("peerProfiles:"+getPeerProfilesCount(pDir));
         } catch (Exception e) {
             System.out.println(e);
         }
