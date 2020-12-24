@@ -29,22 +29,55 @@ public class utils {
         }
     }
 
-    public static String getFormatTime() {
+    public static String getLocalFormatTime() {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         format.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         return format.format(date);
     }
 
-    public static String getDataStoreDir() {
-        String system = System.getProperty("os.name").toLowerCase();
-        if (system.startsWith("windows")) {
-            return "E:/i2pDataHouse/";
-        } else
-            return "/home/bf/workspace/i2pDataHouse/";
+    public static String getFormatTime() {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format.format(date);
     }
 
-    public static Hash getHashByIP(String ip) {
+    public static String getFormatDate() {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format.format(date);
+    }
+
+    public static String getDataStoreDir() {
+        String system = System.getProperty("os.name").toLowerCase();
+        String path = null;
+        if (system.startsWith("windows")) {
+             path = "E:/i2pDataHouse/" + getFormatDate() + "/";
+        } else {
+            path = "/home/bf/workspace/i2pDataHouse/" + getFormatDate() + "/";
+        }
+        mkDirectories(path);
+        return path;
+    }
+
+    public static boolean mkDirectories(String path) {
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                return file.mkdirs();
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("create dir "+ path +" failed.");
+        }
+        return false;
+    }
+
+
+        public static Hash getHashByIP(String ip) {
         if (ip == null) return null;
         ip = ip.replace('/', '~').replace('+', '-');
         if (ip.endsWith(".b32.i2p")) {
@@ -160,7 +193,7 @@ public class utils {
         return rv;
     }
 
-    public static int getPeerProfilesCount(String p_dir){
+    public static int getPeerProfilesCount(String p_dir) {
         List<File> dirs = new LinkedList<File>();
         int rv = 0;
         try {
@@ -194,10 +227,8 @@ public class utils {
 //            System.out.println("ff files:" + riFFNum);
 //            System.out.println("non-ff files:" + (riNum - riFFNum));
 //            System.out.println("peerProfiles:"+getPeerProfilesCount(pDir));
-            JsonObject d_json = new JsonObject();
-            d_json.put("log_time", getFormatTime());
-            d_json.put("aaa", getFormatTime());
-            System.out.println(d_json.toJson());
+            System.out.println(getFormatTime());
+
         } catch (Exception e) {
             System.out.println(e);
         }
