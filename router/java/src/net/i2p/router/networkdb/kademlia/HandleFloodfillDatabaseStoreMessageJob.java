@@ -102,7 +102,7 @@ class HandleFloodfillDatabaseStoreMessageJob extends JobImpl {
                 }
                 LeaseSet ls = (LeaseSet) entry;
                 //YOUNG
-                dsm_json.put("type", "ri");
+                dsm_json.put("type", "ls");
                 dsm_json.put("dest_b32", ls.getDestination().toBase32());
                 dsm_json.put("ls", utils.ls2json(ls));
                 utils.aof(utils.getDataStoreDir() + "dsm_ls.json", dsm_json.toJSONString());

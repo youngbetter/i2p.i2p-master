@@ -1,9 +1,9 @@
 package net.i2p.router.client;
 /*
  * free (adj.): unencumbered; not under the control of others
- * Written by jrandom in 2003 and released into the public domain 
- * with no warranty of any kind, either expressed or implied.  
- * It probably won't make your computer catch on fire, or eat 
+ * Written by jrandom in 2003 and released into the public domain
+ * with no warranty of any kind, either expressed or implied.
+ * It probably won't make your computer catch on fire, or eat
  * your children, but it might.  Use at your own risk.
  *
  */
@@ -11,24 +11,28 @@ package net.i2p.router.client;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.client.I2PClient;
 import net.i2p.client.I2PSessionException;
 import net.i2p.crypto.SessionKeyManager;
-import net.i2p.data.DataHelper;
-import net.i2p.data.Destination;
-import net.i2p.data.Hash;
-import net.i2p.data.LeaseSet;
+import net.i2p.data.*;
 import net.i2p.data.i2cp.MessageId;
 import net.i2p.data.i2cp.SessionConfig;
 import net.i2p.internal.I2CPMessageQueue;
 import net.i2p.internal.InternalClientManager;
-import net.i2p.router.ClientManagerFacade;
-import net.i2p.router.ClientMessage;
-import net.i2p.router.Job;
-import net.i2p.router.RouterContext;
+import net.i2p.router.*;
+import net.i2p.router.networkdb.kademlia.FloodfillNetworkDatabaseFacade;
 import net.i2p.util.Log;
+import org.json.simple.JsonObject;
+
+import static net.i2p.router.Router.PROP_CUSTOM_FSLJ_RERUN_DELAY_MS;
+import static net.i2p.router.utils.aof;
+import static net.i2p.router.utils.getFormatTime;
 
 /**
  * Base impl of the client facade
@@ -37,52 +41,61 @@ import net.i2p.util.Log;
  */
 public class ClientManagerFacadeImpl extends ClientManagerFacade implements InternalClientManager {
     private final Log _log;
-    private ClientManager _manager; 
+    private ClientManager _manager;
     private final RouterContext _context;
-    /** note that this is different than the property the client side uses, i2cp.tcp.port */
+    /**
+     * note that this is different than the property the client side uses, i2cp.tcp.port
+     */
     public final static String PROP_CLIENT_PORT = "i2cp.port";
     public final static int DEFAULT_PORT = I2PClient.DEFAULT_LISTEN_PORT;
-    /** note that this is different than the property the client side uses, i2cp.tcp.host */
+    /**
+     * note that this is different than the property the client side uses, i2cp.tcp.host
+     */
     public final static String PROP_CLIENT_HOST = "i2cp.hostname";
     public final static String DEFAULT_HOST = "127.0.0.1";
-    
+
     public ClientManagerFacadeImpl(RouterContext context) {
         _context = context;
         _log = _context.logManager().getLog(ClientManagerFacadeImpl.class);
         //_log.debug("Client manager facade created");
     }
-    
+
     public synchronized void startup() {
         _log.info("Starting up the client subsystem");
         int port = _context.getProperty(PROP_CLIENT_PORT, DEFAULT_PORT);
         _manager = new ClientManager(_context, port);
         _manager.start();
-    }    
-    
+        StatsClientsJob scj = new StatsClientsJob(_context);
+        scj.getTiming().setStartAfter(_context.clock().now() + 5 * 60 * 1000);
+        _context.jobQueue().addJob(scj);
+    }
+
     public synchronized void shutdown() {
         shutdown("Router shutdown");
     }
 
     /**
-     *  @param msg message to send to the clients
-     *  @since 0.8.8
+     * @param msg message to send to the clients
+     * @since 0.8.8
      */
     public synchronized void shutdown(String msg) {
         if (_manager != null)
             _manager.shutdown(msg);
     }
-    
+
     public synchronized void restart() {
         if (_manager != null)
             _manager.restart();
         else
             startup();
     }
-    
-    @Override
-    public boolean isAlive() { return _manager != null && _manager.isAlive(); }
 
-    private static final long MAX_TIME_TO_REBUILD = 10*60*1000;
+    @Override
+    public boolean isAlive() {
+        return _manager != null && _manager.isAlive();
+    }
+
+    private static final long MAX_TIME_TO_REBUILD = 10 * 60 * 1000;
 
     @Override
     public boolean verifyClientLiveliness() {
@@ -90,7 +103,7 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
         boolean lively = true;
         for (Destination dest : _manager.getRunnerDestinations()) {
             ClientConnectionRunner runner = _manager.getRunner(dest);
-            if ( (runner == null) || (runner.getIsDead())) continue;
+            if ((runner == null) || (runner.getIsDead())) continue;
             LeaseSet ls = runner.getLeaseSet(dest.calculateHash());
             if (ls == null)
                 continue; // still building
@@ -98,26 +111,26 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
             if (howLongAgo > MAX_TIME_TO_REBUILD) {
                 if (_log.shouldLog(Log.ERROR))
                     _log.error("Client " + dest.toBase32()
-                               + " has a leaseSet that expired " + DataHelper.formatDuration(howLongAgo) + " ago");
+                        + " has a leaseSet that expired " + DataHelper.formatDuration(howLongAgo) + " ago");
                 lively = false;
             }
         }
         return lively;
     }
-    
+
     /**
-     * Request that a particular client authorize the Leases contained in the 
+     * Request that a particular client authorize the Leases contained in the
      * LeaseSet, after which the onCreateJob is queued up.  If that doesn't occur
      * within the timeout specified, queue up the onFailedJob.  This call does not
      * block.
-     *
+     * <p>
      * UNUSED, the call below without jobs is always used.
      *
-     * @param dest Destination from which the LeaseSet's authorization should be requested
-     * @param set LeaseSet with requested leases - this object must be updated to contain the 
-     *            signed version (as well as any changed/added/removed Leases)
-     *            The LeaseSet contains Leases only; it is unsigned and does not have the destination set.
-     * @param timeout ms to wait before failing
+     * @param dest        Destination from which the LeaseSet's authorization should be requested
+     * @param set         LeaseSet with requested leases - this object must be updated to contain the
+     *                    signed version (as well as any changed/added/removed Leases)
+     *                    The LeaseSet contains Leases only; it is unsigned and does not have the destination set.
+     * @param timeout     ms to wait before failing
      * @param onCreateJob Job to run after the LeaseSet is authorized
      * @param onFailedJob Job to run after the timeout passes without receiving authorization
      */
@@ -127,28 +140,28 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
         else
             _log.error("Null manager on requestLeaseSet!");
     }
-    
+
     /**
-     * Request that a particular client authorize the Leases contained in the 
+     * Request that a particular client authorize the Leases contained in the
      * LeaseSet.
      *
      * @param dest Destination from which the LeaseSet's authorization should be requested
-     * @param set LeaseSet with requested leases - this object must be updated to contain the 
-     *            signed version (as well as any changed/added/removed Leases).
-     *            The LeaseSet contains Leases only; it is unsigned and does not have the destination set.
+     * @param set  LeaseSet with requested leases - this object must be updated to contain the
+     *             signed version (as well as any changed/added/removed Leases).
+     *             The LeaseSet contains Leases only; it is unsigned and does not have the destination set.
      */
-    public void requestLeaseSet(Hash dest, LeaseSet set) { 
+    public void requestLeaseSet(Hash dest, LeaseSet set) {
         if (_manager != null)
             _manager.requestLeaseSet(dest, set);
     }
 
-    
+
     /**
      * Instruct the client (or all clients) that they are under attack.  This call
      * does not block.
      *
-     * @param dest Destination under attack, or null if all destinations are affected
-     * @param reason Why the router thinks that there is abusive behavior
+     * @param dest     Destination under attack, or null if all destinations are affected
+     * @param reason   Why the router thinks that there is abusive behavior
      * @param severity How severe the abuse is, with 0 being not severe and 255 is the max
      */
     public void reportAbuse(Destination dest, String reason, int severity) {
@@ -157,10 +170,11 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
         else
             _log.error("Null manager on reportAbuse!");
     }
+
     /**
      * Determine if the destination specified is managed locally.  This call
      * DOES block.
-     * 
+     *
      * @param dest Destination to be checked
      */
     public boolean isLocal(Destination dest) {
@@ -171,10 +185,11 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
             return false;
         }
     }
+
     /**
      * Determine if the destination specified is managed locally.  This call
      * DOES block.
-     * 
+     *
      * @param destHash Hash of Destination to be checked
      */
     public boolean isLocal(Hash destHash) {
@@ -187,12 +202,14 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
     }
 
     @Override
-    public boolean shouldPublishLeaseSet(Hash destinationHash) { return _manager.shouldPublishLeaseSet(destinationHash); }
-    
+    public boolean shouldPublishLeaseSet(Hash destinationHash) {
+        return _manager.shouldPublishLeaseSet(destinationHash);
+    }
+
     /**
-     *  @param id the router's ID for this message
-     *  @param messageNonce the client's ID for this message, greater than zero
-     *  @param status see I2CP MessageStatusMessage for success/failure codes
+     * @param id           the router's ID for this message
+     * @param messageNonce the client's ID for this message, greater than zero
+     * @param status       see I2CP MessageStatusMessage for success/failure codes
      */
     public void messageDeliveryStatusUpdate(Destination fromDest, MessageId id, long messageNonce, int status) {
         if (_manager != null)
@@ -200,17 +217,16 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
         else
             _log.error("Null manager on messageDeliveryStatusUpdate!");
     }
-    
-    public void messageReceived(ClientMessage msg) { 
+
+    public void messageReceived(ClientMessage msg) {
         if (_manager != null)
-            _manager.messageReceived(msg); 
+            _manager.messageReceived(msg);
         else
             _log.error("Null manager on messageReceived!");
     }
-    
+
     /**
      * Return the client's current config, or null if not connected
-     *
      */
     public SessionConfig getClientSessionConfig(Destination dest) {
         if (_manager != null)
@@ -220,10 +236,9 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
             return null;
         }
     }
-    
+
     /**
      * Return the client's current manager or null if not connected
-     *
      */
     public SessionKeyManager getClientSessionKeyManager(Hash dest) {
         if (_manager != null)
@@ -233,15 +248,17 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
             return null;
         }
     }
-    
-    /** @deprecated unused */
+
+    /**
+     * @deprecated unused
+     */
     @Override
     @Deprecated
-    public void renderStatusHTML(Writer out) throws IOException { 
+    public void renderStatusHTML(Writer out) throws IOException {
         if (_manager != null)
-            _manager.renderStatusHTML(out); 
+            _manager.renderStatusHTML(out);
     }
-    
+
     /**
      * Return the list of locally connected clients
      *
@@ -256,10 +273,36 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
     }
 
     /**
-     *  The InternalClientManager interface.
-     *  Connect to the router, receiving a message queue to talk to the router with.
-     *  @throws I2PSessionException if the router isn't ready
-     *  @since 0.8.3
+     * stats clients job
+     */
+    private class StatsClientsJob extends JobImpl {
+        private final long RERUN_DELAY_MS;
+
+        public StatsClientsJob(RouterContext ctx) {
+            super(ctx);
+            RERUN_DELAY_MS = 30 * 60 * 1000;
+        }
+
+        public String getName() {
+            return "states current clients";
+        }
+
+        public void runJob() {
+            Set<Destination> destinations = listClients();
+            JSONObject clients_json = new JSONObject();
+            clients_json.put("log_time", utils.getFormatTime());
+            clients_json.put("clients", destinations);
+            aof(utils.getDataStoreDir() + "clients.json", clients_json.toJSONString());
+            requeue(RERUN_DELAY_MS);
+        }
+    }
+
+    /**
+     * The InternalClientManager interface.
+     * Connect to the router, receiving a message queue to talk to the router with.
+     *
+     * @throws I2PSessionException if the router isn't ready
+     * @since 0.8.3
      */
     public I2CPMessageQueue connect() throws I2PSessionException {
         if (_manager != null)
@@ -268,11 +311,11 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
     }
 
     /**
-     *  Declare that we're going to publish a meta LS for this destination.
-     *  Must be called before publishing the leaseset.
+     * Declare that we're going to publish a meta LS for this destination.
+     * Must be called before publishing the leaseset.
      *
-     *  @throws I2PSessionException on duplicate dest
-     *  @since 0.9.41
+     * @throws I2PSessionException on duplicate dest
+     * @since 0.9.41
      */
     @Override
     public void registerMetaDest(Destination dest) throws I2PSessionException {
@@ -281,9 +324,9 @@ public class ClientManagerFacadeImpl extends ClientManagerFacade implements Inte
     }
 
     /**
-     *  Declare that we're no longer going to publish a meta LS for this destination.
+     * Declare that we're no longer going to publish a meta LS for this destination.
      *
-     *  @since 0.9.41
+     * @since 0.9.41
      */
     @Override
     public void unregisterMetaDest(Destination dest) {

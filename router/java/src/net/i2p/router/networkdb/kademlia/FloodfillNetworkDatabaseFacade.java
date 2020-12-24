@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import net.i2p.crypto.SigType;
 import net.i2p.data.DatabaseEntry;
-import net.i2p.data.Destination;
 import net.i2p.data.Hash;
 import net.i2p.data.LeaseSet;
 import net.i2p.data.TunnelId;
@@ -23,16 +21,16 @@ import net.i2p.kademlia.KBucket;
 import net.i2p.kademlia.KBucketSet;
 import net.i2p.kademlia.RejectTrimmer;
 import net.i2p.router.*;
-import net.i2p.util.Clock;
 import net.i2p.util.ConcurrentHashSet;
 import net.i2p.util.Log;
 import net.i2p.util.SystemVersion;
-import org.json.simple.JsonObject;
 
 import static net.i2p.data.DatabaseEntry.KEY_TYPE_ROUTERINFO;
 import static net.i2p.router.Router.*;
 import static net.i2p.router.utils.aof;
 import static net.i2p.router.utils.getFormatTime;
+
+
 
 /**
  * The network database
@@ -799,7 +797,7 @@ public class FloodfillNetworkDatabaseFacade extends KademliaNetworkDatabaseFacad
                         item.put("known_ri", knownRI);
                         item.put("known_ls", knownLS);
                         item.put("caps", info.getCapabilities());
-                        item.put("xor", new KBucketSet<Hash>(_context, _context.routerKeyGenerator().getRoutingKey(_context.routerHash()),
+                        item.put("xor", new KBucketSet<Hash>(_context, _context.routerHash(),
                             24, 4, new RejectTrimmer<Hash>()).getRange(peer));
                         item.put("peer_hash", peer.getData());
                         item.put("us_rkey", _context.routerKeyGenerator().getRoutingKey(_context.routerHash()).getData());

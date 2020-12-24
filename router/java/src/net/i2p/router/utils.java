@@ -46,6 +46,7 @@ public class utils {
 
     public static Hash getHashByIP(String ip) {
         if (ip == null) return null;
+        ip = ip.replace('/', '~').replace('+', '-');
         if (ip.endsWith(".b32.i2p")) {
             byte[] b = Base32.decode(ip.substring(0, 52));
             if (b != null) {
@@ -183,15 +184,20 @@ public class utils {
 
     public static void main(String[] args) {
         try {
-            String netDBDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\netDB";
-            String pDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\peerProfiles";
-
-            int riNum = getRICount(netDBDir);
-            int riFFNum = getRICount(netDBDir, true);
-            System.out.println("total ri files:" + riNum);
-            System.out.println("ff files:" + riFFNum);
-            System.out.println("non-ff files:" + (riNum - riFFNum));
-            System.out.println("peerProfiles:"+getPeerProfilesCount(pDir));
+//            String netDBDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\netDB";
+//            String pDir = "C:\\Users\\DD12\\AppData\\Roaming\\I2P\\peerProfiles";
+//            String m8 = "mR8HO8/TktQL0SoXua5OfKtHCoDKxnfdWBTXeVd6i6ugMNU+66ze7LAHNrJTuEcVIv+iCW9E35DCq1wchsEd3k6AzmDoxhMQbWmeK9hXgxO706pVPAl/G5sPN+46NKCZMxTGjwj2/ZYyFua9TmrMAdLov0tyr0n4IkhhN9fxh/Cj90XxSKXQ3sk5czgMvas3hEO+2OdNJ9zk7FN789IC6eX1Djap3XWuL7NUASESeEXCDtoBLVpBs0/RLUqpIuymXJeOVuIRDniZeaYPTqg/xX3f8thxfx5GZZNVCAPG1KUpaPNLmOV8Xba/i1IFMpPO3B7st+Yvo7MHwMpm8OMhOg==";
+//            System.out.println(getHashByIP(m8));
+//            int riNum = getRICount(netDBDir);
+//            int riFFNum = getRICount(netDBDir, true);
+//            System.out.println("total ri files:" + riNum);
+//            System.out.println("ff files:" + riFFNum);
+//            System.out.println("non-ff files:" + (riNum - riFFNum));
+//            System.out.println("peerProfiles:"+getPeerProfilesCount(pDir));
+            JsonObject d_json = new JsonObject();
+            d_json.put("log_time", getFormatTime());
+            d_json.put("aaa", getFormatTime());
+            System.out.println(d_json.toJson());
         } catch (Exception e) {
             System.out.println(e);
         }

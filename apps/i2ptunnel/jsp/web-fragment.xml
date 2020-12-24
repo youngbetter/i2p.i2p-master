@@ -5,13 +5,13 @@ Automatically created by Apache Tomcat JspC.
 
 
     <servlet>
-        <servlet-name>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-name>
-        <servlet-class>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-class>
+        <servlet-name>net.i2p.i2ptunnel.jsp.register_jsp</servlet-name>
+        <servlet-class>net.i2p.i2ptunnel.jsp.register_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.i2ptunnel.jsp.register_jsp</servlet-name>
-        <servlet-class>net.i2p.i2ptunnel.jsp.register_jsp</servlet-class>
+        <servlet-name>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-name>
+        <servlet-class>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -30,13 +30,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-name>
-        <url-pattern>/ssl.jsp</url-pattern>
+        <servlet-name>net.i2p.i2ptunnel.jsp.register_jsp</servlet-name>
+        <url-pattern>/register.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.i2ptunnel.jsp.register_jsp</servlet-name>
-        <url-pattern>/register.jsp</url-pattern>
+        <servlet-name>net.i2p.i2ptunnel.jsp.ssl_jsp</servlet-name>
+        <url-pattern>/ssl.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
