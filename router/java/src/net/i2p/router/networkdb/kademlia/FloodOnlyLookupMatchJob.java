@@ -11,6 +11,10 @@ import net.i2p.router.ReplyJob;
 import net.i2p.router.RouterContext;
 import net.i2p.util.Log;
 
+/**
+ * 本地netDb查找某一个key
+ */
+
 class FloodOnlyLookupMatchJob extends JobImpl implements ReplyJob {
     private final Log _log;
     private final FloodSearchJob _search;
@@ -21,7 +25,7 @@ class FloodOnlyLookupMatchJob extends JobImpl implements ReplyJob {
         _search = job;
     }
 
-    public void runJob() { 
+    public void runJob() {
         if (getContext().netDb().lookupLocally(_search.getKey()) != null) {
             if (_log.shouldLog(Log.INFO))
                 _log.info(_search.getJobId() + ": search match and found locally");
@@ -46,7 +50,7 @@ class FloodOnlyLookupMatchJob extends JobImpl implements ReplyJob {
         try {
             DatabaseStoreMessage dsm = (DatabaseStoreMessage)message;
             if (_log.shouldLog(Log.INFO))
-                _log.info(_search.getJobId() + ": got a DSM for " 
+                _log.info(_search.getJobId() + ": got a DSM for "
                           + dsm.getKey().toBase64());
             // This store will be duplicated by HFDSMJ
             // We do it here first to make sure it is in the DB before

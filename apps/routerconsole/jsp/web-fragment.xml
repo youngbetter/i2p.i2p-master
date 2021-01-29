@@ -5,8 +5,8 @@ Automatically created by Apache Tomcat JspC.
 
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.viewstat_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.viewstat_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.index_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.index_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -15,13 +15,23 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.index_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.index_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.viewtheme_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.viewtheme_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.viewtheme_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.viewtheme_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.error500_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.error500_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.viewstat_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.viewstat_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -30,8 +40,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -45,38 +55,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.dns_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.dns_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.error_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.error_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>net.i2p.router.web.jsp.viewprofile_jsp</servlet-name>
         <servlet-class>net.i2p.router.web.jsp.viewprofile_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.jobs_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.jobs_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.error500_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.error500_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configfamily_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configfamily_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.dns_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.dns_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -85,13 +70,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.oldconsole_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.oldconsole_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.error_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.error_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -100,43 +80,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configlogging_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configlogging_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.console_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.console_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.confighome_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.confighome_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.flags_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.flags_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configclients_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configclients_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configplugins_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configplugins_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.jobs_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.jobs_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -145,8 +90,58 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.jars_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.jars_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configfamily_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configfamily_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.oldconsole_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.oldconsole_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.confighome_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.confighome_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.logs_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.logs_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.flags_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.flags_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.configplugins_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configplugins_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.configclients_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configclients_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.console_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.console_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -155,18 +150,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.webmail_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.webmail_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configlogging_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configlogging_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.help_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.help_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.debug_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.debug_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.jars_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.jars_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -175,8 +165,38 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.logs_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.logs_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.help_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.help_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.graphs_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.graphs_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.webmail_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.webmail_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.debug_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.debug_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.netdb_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.netdb_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.peers_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.peers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.configkeyring_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configkeyring_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -190,31 +210,6 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.createreseed_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.createreseed_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configkeyring_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configkeyring_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.graphs_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.graphs_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.peers_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.peers_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.netdb_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.netdb_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>net.i2p.router.web.jsp.tunnels_jsp</servlet-name>
         <servlet-class>net.i2p.router.web.jsp.tunnels_jsp</servlet-class>
     </servlet>
@@ -225,13 +220,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configi2cp_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configi2cp_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configui_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configui_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.createreseed_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.createreseed_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -240,13 +230,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configpeer_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configpeer_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configadvanced_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configadvanced_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configi2cp_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configi2cp_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -255,8 +240,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.torrents_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.torrents_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configui_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configui_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.configadvanced_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configadvanced_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -265,8 +255,18 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configtunnels_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configtunnels_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configsidebar_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configsidebar_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.torrents_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.torrents_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>net.i2p.router.web.jsp.configpeer_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configpeer_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -275,8 +275,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configwebapps_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configwebapps_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configtunnels_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configtunnels_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -285,8 +285,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>net.i2p.router.web.jsp.configsidebar_jsp</servlet-name>
-        <servlet-class>net.i2p.router.web.jsp.configsidebar_jsp</servlet-class>
+        <servlet-name>net.i2p.router.web.jsp.configwebapps_jsp</servlet-name>
+        <servlet-class>net.i2p.router.web.jsp.configwebapps_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -315,8 +315,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.viewstat_jsp</servlet-name>
-        <url-pattern>/viewstat.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.index_jsp</servlet-name>
+        <url-pattern>/index.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -325,13 +325,23 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.index_jsp</servlet-name>
-        <url-pattern>/index.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.viewtheme_jsp</servlet-name>
+        <url-pattern>/viewtheme.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.viewtheme_jsp</servlet-name>
-        <url-pattern>/viewtheme.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-name>
+        <url-pattern>/welcomexhr1.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.error500_jsp</servlet-name>
+        <url-pattern>/error500.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.viewstat_jsp</servlet-name>
+        <url-pattern>/viewstat.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -340,8 +350,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.welcomexhr1_jsp</servlet-name>
-        <url-pattern>/welcomexhr1.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-name>
+        <url-pattern>/dumpprofile.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -355,43 +365,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.dns_jsp</servlet-name>
-        <url-pattern>/dns.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-name>
-        <url-pattern>/i2ptunnelmgr.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.error_jsp</servlet-name>
-        <url-pattern>/error.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
         <servlet-name>net.i2p.router.web.jsp.viewprofile_jsp</servlet-name>
         <url-pattern>/viewprofile.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.jobs_jsp</servlet-name>
-        <url-pattern>/jobs.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.error500_jsp</servlet-name>
-        <url-pattern>/error500.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configfamily_jsp</servlet-name>
-        <url-pattern>/configfamily.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.dumpprofile_jsp</servlet-name>
-        <url-pattern>/dumpprofile.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.dns_jsp</servlet-name>
+        <url-pattern>/dns.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -400,8 +380,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.oldconsole_jsp</servlet-name>
-        <url-pattern>/oldconsole.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.error_jsp</servlet-name>
+        <url-pattern>/error.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -410,43 +390,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configlogging_jsp</servlet-name>
-        <url-pattern>/configlogging.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.console_jsp</servlet-name>
-        <url-pattern>/console.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.confighome_jsp</servlet-name>
-        <url-pattern>/confighome.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-name>
-        <url-pattern>/viewrouterlog.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.flags_jsp</servlet-name>
-        <url-pattern>/flags.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-name>
-        <url-pattern>/viewwrapperlog.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configclients_jsp</servlet-name>
-        <url-pattern>/configclients.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configplugins_jsp</servlet-name>
-        <url-pattern>/configplugins.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.jobs_jsp</servlet-name>
+        <url-pattern>/jobs.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -455,8 +400,58 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.jars_jsp</servlet-name>
-        <url-pattern>/jars.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configfamily_jsp</servlet-name>
+        <url-pattern>/configfamily.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.oldconsole_jsp</servlet-name>
+        <url-pattern>/oldconsole.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.confighome_jsp</servlet-name>
+        <url-pattern>/confighome.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.logs_jsp</servlet-name>
+        <url-pattern>/logs.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.flags_jsp</servlet-name>
+        <url-pattern>/flags.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.viewrouterlog_jsp</servlet-name>
+        <url-pattern>/viewrouterlog.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.i2ptunnelmgr_jsp</servlet-name>
+        <url-pattern>/i2ptunnelmgr.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.configplugins_jsp</servlet-name>
+        <url-pattern>/configplugins.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.configclients_jsp</servlet-name>
+        <url-pattern>/configclients.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.console_jsp</servlet-name>
+        <url-pattern>/console.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.viewwrapperlog_jsp</servlet-name>
+        <url-pattern>/viewwrapperlog.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -465,18 +460,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.webmail_jsp</servlet-name>
-        <url-pattern>/webmail.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configlogging_jsp</servlet-name>
+        <url-pattern>/configlogging.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.help_jsp</servlet-name>
-        <url-pattern>/help.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.debug_jsp</servlet-name>
-        <url-pattern>/debug.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.jars_jsp</servlet-name>
+        <url-pattern>/jars.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -485,8 +475,38 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.logs_jsp</servlet-name>
-        <url-pattern>/logs.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.help_jsp</servlet-name>
+        <url-pattern>/help.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.graphs_jsp</servlet-name>
+        <url-pattern>/graphs.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.webmail_jsp</servlet-name>
+        <url-pattern>/webmail.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.debug_jsp</servlet-name>
+        <url-pattern>/debug.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.netdb_jsp</servlet-name>
+        <url-pattern>/netdb.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.peers_jsp</servlet-name>
+        <url-pattern>/peers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.configkeyring_jsp</servlet-name>
+        <url-pattern>/configkeyring.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -500,31 +520,6 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.createreseed_jsp</servlet-name>
-        <url-pattern>/createreseed.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configkeyring_jsp</servlet-name>
-        <url-pattern>/configkeyring.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.graphs_jsp</servlet-name>
-        <url-pattern>/graphs.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.peers_jsp</servlet-name>
-        <url-pattern>/peers.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.netdb_jsp</servlet-name>
-        <url-pattern>/netdb.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
         <servlet-name>net.i2p.router.web.jsp.tunnels_jsp</servlet-name>
         <url-pattern>/tunnels.jsp</url-pattern>
     </servlet-mapping>
@@ -535,13 +530,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configi2cp_jsp</servlet-name>
-        <url-pattern>/configi2cp.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configui_jsp</servlet-name>
-        <url-pattern>/configui.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.createreseed_jsp</servlet-name>
+        <url-pattern>/createreseed.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -550,13 +540,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configpeer_jsp</servlet-name>
-        <url-pattern>/configpeer.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configadvanced_jsp</servlet-name>
-        <url-pattern>/configadvanced.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configi2cp_jsp</servlet-name>
+        <url-pattern>/configi2cp.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -565,8 +550,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.torrents_jsp</servlet-name>
-        <url-pattern>/torrents.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configui_jsp</servlet-name>
+        <url-pattern>/configui.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.configadvanced_jsp</servlet-name>
+        <url-pattern>/configadvanced.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -575,8 +565,18 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configtunnels_jsp</servlet-name>
-        <url-pattern>/configtunnels.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configsidebar_jsp</servlet-name>
+        <url-pattern>/configsidebar.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.torrents_jsp</servlet-name>
+        <url-pattern>/torrents.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>net.i2p.router.web.jsp.configpeer_jsp</servlet-name>
+        <url-pattern>/configpeer.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -585,8 +585,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configwebapps_jsp</servlet-name>
-        <url-pattern>/configwebapps.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configtunnels_jsp</servlet-name>
+        <url-pattern>/configtunnels.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -595,8 +595,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>net.i2p.router.web.jsp.configsidebar_jsp</servlet-name>
-        <url-pattern>/configsidebar.jsp</url-pattern>
+        <servlet-name>net.i2p.router.web.jsp.configwebapps_jsp</servlet-name>
+        <url-pattern>/configwebapps.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

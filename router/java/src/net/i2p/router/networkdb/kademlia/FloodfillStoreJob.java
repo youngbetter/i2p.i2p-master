@@ -1,9 +1,9 @@
 package net.i2p.router.networkdb.kademlia;
 /*
  * free (adj.): unencumbered; not under the control of others
- * Written by jrandom in 2003 and released into the public domain 
- * with no warranty of any kind, either expressed or implied.  
- * It probably won't make your computer catch on fire, or eat 
+ * Written by jrandom in 2003 and released into the public domain
+ * with no warranty of any kind, either expressed or implied.
+ * It probably won't make your computer catch on fire, or eat
  * your children, but it might.  Use at your own risk.
  *
  */
@@ -24,20 +24,21 @@ import net.i2p.util.Log;
  *
  *  Stores through this class always request a reply.
  *
+ *  Only store ls **YOUNG**
  */
-class FloodfillStoreJob extends StoreJob {    
+class FloodfillStoreJob extends StoreJob {
     private final FloodfillNetworkDatabaseFacade _facade;
 
     private static final String PROP_RI_VERIFY = "router.verifyRouterInfoStore";
 
     /**
      * Send a data structure to the floodfills
-     * 
+     *
      */
     public FloodfillStoreJob(RouterContext context, FloodfillNetworkDatabaseFacade facade, Hash key, DatabaseEntry data, Job onSuccess, Job onFailure, long timeoutMs) {
         this(context, facade, key, data, onSuccess, onFailure, timeoutMs, null);
     }
-    
+
     /**
      * @param toSkip set of peer hashes of people we dont want to send the data to (e.g. we
      *               already know they have it).  This can be null.
@@ -113,7 +114,7 @@ class FloodfillStoreJob extends StoreJob {
                           ", queueing verify job " + fvsj.getJobId());
             getContext().jobQueue().addJob(fvsj);
     }
-    
+
     @Override
     public String getName() { return "Floodfill netDb store"; }
 }

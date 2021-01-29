@@ -21,7 +21,9 @@ class FloodThrottler {
         SimpleTimer2.getInstance().addPeriodicEvent(new Cleaner(), CLEAN_TIME);
     }
 
-    /** increments before checking */
+    /** increments before checking
+     * 也就是说一分钟内，一个key超过给3个ff，那就认为DOS
+     */
     boolean shouldThrottle(Hash h) {
         return this.counter.increment(h) > MAX_FLOODS;
     }

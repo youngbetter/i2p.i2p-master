@@ -29,6 +29,22 @@ public class utils {
         }
     }
 
+    public static void rdb(String file, String content) {
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
+            out.write(content + "\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static String getLocalFormatTime() {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
@@ -54,7 +70,7 @@ public class utils {
         String system = System.getProperty("os.name").toLowerCase();
         String path = null;
         if (system.startsWith("windows")) {
-             path = "E:/i2pDataHouse/" + getFormatDate() + "/";
+            path = "E:/i2pDataHouse/" + getFormatDate() + "/";
         } else {
             path = "/home/bf/workspace/i2pDataHouse/" + getFormatDate() + "/";
         }
@@ -71,13 +87,13 @@ public class utils {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("create dir "+ path +" failed.");
+            System.out.println("create dir " + path + " failed.");
         }
         return false;
     }
 
 
-        public static Hash getHashByIP(String ip) {
+    public static Hash getHashByIP(String ip) {
         if (ip == null) return null;
         ip = ip.replace('/', '~').replace('+', '-');
         if (ip.endsWith(".b32.i2p")) {
@@ -213,6 +229,14 @@ public class utils {
             return 0;
         }
         return rv;
+    }
+
+    public static String hash2binary(byte[] hash_data) {
+        StringBuilder sb = new StringBuilder();
+        for (byte h : hash_data) {
+            sb.append(String.format("%8s", Integer.toBinaryString(h & 0xFF)).replace(" ", "0"));
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {

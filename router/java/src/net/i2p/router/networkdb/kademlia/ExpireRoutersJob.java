@@ -8,39 +8,46 @@ package net.i2p.router.networkdb.kademlia;
  *
  */
 
+import java.util.HashSet;
 import java.util.Set;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import net.i2p.data.DatabaseEntry;
 import net.i2p.data.Hash;
 import net.i2p.data.router.RouterInfo;
 import net.i2p.router.CommSystemFacade.Status;
 import net.i2p.router.JobImpl;
 import net.i2p.router.RouterContext;
+import net.i2p.router.utils;
 import net.i2p.util.Log;
 
 /**
  * Go through the routing table pick routers that are
  * is out of date, but don't expire routers we're actively connected to.
- *
+ * <p>
  * We could in the future use profile data, netdb total size, a Kademlia XOR distance,
  * or other criteria to minimize netdb size, but for now we just use _facade's
  * validate(), which is a sliding expriation based on netdb size.
- *
  */
 class ExpireRoutersJob extends JobImpl {
     private final Log _log;
     private final KademliaNetworkDatabaseFacade _facade;
-    
-    /** rerun fairly often, so the fails don't queue up too many netdb searches at once */
-    private final static long RERUN_DELAY_MS = 5*60*1000;
-    
+
+    /**
+     * rerun fairly often, so the fails don't queue up too many netdb searches at once
+     */
+    private final static long RERUN_DELAY_MS = 5 * 60 * 1000;
+
     public ExpireRoutersJob(RouterContext ctx, KademliaNetworkDatabaseFacade facade) {
         super(ctx);
         _log = ctx.logManager().getLog(ExpireRoutersJob.class);
         _facade = facade;
     }
-    
-    public String getName() { return "Expire Routers Job"; }
+
+    public String getName() {
+        return "Expire Routers Job";
+    }
 
     public void runJob() {
         if (getContext().commSystem().getStatus() != Status.DISCONNECTED) {
@@ -50,8 +57,8 @@ class ExpireRoutersJob extends JobImpl {
         }
         requeue(RERUN_DELAY_MS);
     }
-    
-    
+
+
     /**
      * Run through all of the known peers and pick ones that have really old
      * routerInfo publish dates, excluding ones that we are connected to,
@@ -60,6 +67,9 @@ class ExpireRoutersJob extends JobImpl {
      * @return number removed
      */
     private int expireKeys() {
+        JSONObject e_json = new JSONObject();
+        e_json.put("log_time", utils.getFormatTime());
+        Set<Hash> e_keys = new HashSet<>();
         Set<Hash> keys = _facade.getAllRouters();
         keys.remove(getContext().routerHash());
         if (keys.size() < 150)
@@ -75,14 +85,18 @@ class ExpireRoutersJob extends JobImpl {
                         if (_facade.validate((RouterInfo) e) != null) {
                             _facade.dropAfterLookupFailed(key);
                             removed++;
+                            e_keys.add(key);
                         }
                     } catch (IllegalArgumentException iae) {
                         _facade.dropAfterLookupFailed(key);
                         removed++;
+                        e_keys.add(key);
                     }
                 }
             }
         }
+        e_json.put("expires", e_keys);
+        utils.aof(utils.getDataStoreDir() + "expire_ris.json", e_json.toJSONString());
         return removed;
     }
 }

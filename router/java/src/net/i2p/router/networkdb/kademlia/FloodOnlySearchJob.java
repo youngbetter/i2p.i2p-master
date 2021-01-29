@@ -17,7 +17,7 @@ import net.i2p.router.TunnelInfo;
 import net.i2p.util.Log;
 
 /**
- * Uunused directly, replaced by IterativeSearchJob, but still extended by
+ * Unused directly, replaced by IterativeSearchJob, but still extended by
  * SingleSearchJob.
  *
  * Try sending a search to some floodfill peers, failing completely if we don't get
@@ -40,7 +40,7 @@ import net.i2p.util.Log;
 abstract class FloodOnlySearchJob extends FloodSearchJob {
     private boolean _shouldProcessDSRM;
     private final HashSet<Hash> _unheardFrom;
-    
+
     /** this is a marker to register with the MessageRegistry, it is never sent */
     private OutNetMessage _out;
     protected final MessageSelector _replySelector;
@@ -147,7 +147,7 @@ abstract class FloodOnlySearchJob extends FloodSearchJob {
             Hash peer = floodfillPeers.get(i);
             if (peer.equals(getContext().routerHash()))
                 continue;
-            
+
             DatabaseLookupMessage dlm = new DatabaseLookupMessage(getContext(), true);
             TunnelInfo replyTunnel = getContext().tunnelManager().selectInboundTunnel();
             TunnelInfo outTunnel = getContext().tunnelManager().selectOutboundTunnel();
@@ -164,7 +164,7 @@ abstract class FloodOnlySearchJob extends FloodSearchJob {
             // not being able to send to the floodfill, if we don't have an older netdb entry.
             if (outTunnel.getLength() <= 1 && peer.equals(_key) && floodfillPeers.size() > 1)
                 continue;
-            
+
             synchronized(_unheardFrom) {
                 _unheardFrom.add(peer);
             }
@@ -173,14 +173,14 @@ abstract class FloodOnlySearchJob extends FloodSearchJob {
             dlm.setReplyTunnel(replyTunnel.getReceiveTunnelId(0));
             dlm.setSearchKey(_key);
             dlm.setSearchType(_isLease ? DatabaseLookupMessage.Type.LS : DatabaseLookupMessage.Type.RI);
-            
+
             if (_log.shouldLog(Log.INFO))
                 _log.info(getJobId() + ": Floodfill search for " + _key + " to " + peer);
             getContext().tunnelDispatcher().dispatchOutbound(dlm, outTunnel.getSendTunnelId(0), peer);
             count++;
             _lookupsRemaining.incrementAndGet();
         }
-        
+
         if (count <= 0) {
             if (_log.shouldLog(Log.INFO))
                 _log.info(getJobId() + ": Floodfill search for " + _key + " had no peers to send to");
@@ -192,7 +192,7 @@ abstract class FloodOnlySearchJob extends FloodSearchJob {
 
     @Override
     public String getName() { return "NetDb flood search"; }
-    
+
     /**
      *  Note that we heard from the peer
      *
@@ -204,7 +204,7 @@ abstract class FloodOnlySearchJob extends FloodSearchJob {
             return decrementRemaining();
         }
     }
-    
+
     @Override
     void failed() {
         synchronized (this) {
